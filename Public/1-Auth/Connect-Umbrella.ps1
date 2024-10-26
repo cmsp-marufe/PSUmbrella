@@ -1,6 +1,6 @@
 #Makes the "Create Authorization Token" API call
 
-function Connect-UmbrellaAPI {
+function Connect-Umbrella {
     [CmdletBinding()]
     param (
         [ValidateNotNull()]
