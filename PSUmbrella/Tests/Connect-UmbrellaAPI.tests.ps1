@@ -1,11 +1,3 @@
-BeforeAll {
-    Import-Module -Name $PSSCRIPTROOT/PSUmbrellaAPI.psd1 -Force
-}
+#Import the module
 
-Describe Connect-UmbrellaAPI {
-
-}
-
-AfterAll {
-    Remove-Module -Name PSUmbrellaAPI -Force
-}
+Import-Module -Name C:\Users\marufe\GitHub\PSUmbrella -Verbose
