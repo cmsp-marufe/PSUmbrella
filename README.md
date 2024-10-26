@@ -1,2 +1,2 @@
-# UmbrellaAPI
-A PowerShell module for interacting with the Umbrella API
+# PSUmbrella
+A PowerShell module for managing Cisco Umbrella using REST API calls.
