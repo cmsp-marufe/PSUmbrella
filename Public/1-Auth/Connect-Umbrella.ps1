@@ -9,22 +9,38 @@ function Connect-Umbrella {
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
     
+    
     if($Credential -ne [System.Management.Automation.PSCredential]::Empty) {
-        $Params = @{
-            Uri = $UmbrellaAPIPaths.Auth.TokenUrl
-            Authentication = "Basic"
-            Credential = $Credential
-        }
-    } else {
-        $Params = @{
-            Uri = $UmbrellaAPIPaths.Auth.TokenUrl
-            Authentication = "Basic"
-            Credential = (Get-Credential)
-        }
+        $creds = $Credential
+    }else { 
+        $creds = (Get-Credential)
     }
 
-    $Session = Invoke-RestMethod @Params
-    $Session | Out-Host
-    $temp_token = $Session.access_token | ConvertTo-SecureString -AsPlainText -Force
-    Set-Variable -Name Token -Value $temp_token -Scope Script -Option ReadOnly -Force
+    function ConvertFrom-SecureStringToPlainText ([System.Security.SecureString]$SecureString) {
+
+        [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
+        
+            [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureString)
+        )            
+    }
+
+    $auth = $creds.UserName + ':' + (ConvertFrom-SecureStringToPlainText -SecureString $creds.Password)
+    $Encoded = [System.Text.Encoding]::UTF8.GetBytes($auth)
+    $authorizationInfo = [System.Convert]::ToBase64String($Encoded)
+    $headers = @{"Authorization"="Basic $($authorizationInfo)"}
+    
+    
+    <#$Params = @{
+        Uri = $UmbrellaAPIPaths.Auth.TokenUrl
+        Method = "POST"
+        Headers = $headers
+    }#>
+    
+    $response = Invoke-RestMethod -Uri $UmbrellaAPIPaths.Auth.TokenUrl -Method "POST" -Headers $headers
+    
+    if($null -ne $response.access_token) {
+        $temp_token = $response.access_token | ConvertTo-SecureString -AsPlainText -Force
+        Set-Variable -Name Token -Value $temp_token -Scope Script -Option ReadOnly -Force
+        Write-Host "Now connected to Umbrella API"
+    }
 }
