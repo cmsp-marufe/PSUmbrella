@@ -7,7 +7,7 @@ function Get-UmbrellaManagedCustomer {
     )
     
     $headers = @{
-        Authorization = "Bearer $script:token"}
+        Authorization = "Bearer $script:token"
     }
 
     $Params = @{
