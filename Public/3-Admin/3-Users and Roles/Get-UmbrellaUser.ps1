@@ -1,4 +1,5 @@
 #Makes the "getUser" and "listUsers" API operations
+#Work in progress, not yet functional
 function Get-UmbrellaUser {
     
     [CmdletBinding(DefaultParameterSetName='All Users')]

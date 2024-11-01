@@ -1,4 +1,5 @@
 #Makes the "listRoles" API operation
+#Work in progress, not yet functional
 function Get-UmbrellaRole {
     
     #Set the static parameters

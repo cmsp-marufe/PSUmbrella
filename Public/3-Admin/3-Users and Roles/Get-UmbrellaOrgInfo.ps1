@@ -1,4 +1,5 @@
 #API Operation Id: getOrganizationInformation
+#Work in Progress, not yet functional
 
 function Get-UmbrellaOrgInfo {
     
