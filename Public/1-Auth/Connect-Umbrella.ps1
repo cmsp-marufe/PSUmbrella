@@ -39,8 +39,8 @@ function Connect-Umbrella {
     $response = Invoke-RestMethod -Uri $UmbrellaAPIPaths.Auth.TokenUrl -Method "POST" -Headers $headers
     
     if($null -ne $response.access_token) {
-        $token = $response.access_token | ConvertTo-SecureString -AsPlainText -Force
-        Set-Variable -Name token -Value $token -Scope Script -Option ReadOnly -Force
+        $temp_token = $response.access_token | ConvertTo-SecureString -AsPlainText -Force
+        Set-Variable -Name token -Value $temp_token -Scope Script -Option ReadOnly -Force
         Write-Host "Now connected to Umbrella API"
     }
 }
