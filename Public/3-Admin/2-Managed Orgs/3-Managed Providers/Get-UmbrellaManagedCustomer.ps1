@@ -3,18 +3,21 @@ function Get-UmbrellaManagedCustomer {
     
     [CmdletBinding()]
     param (
-        [string]$Id,
-        [string]$Name
+        [string]$Id
     )
     
-    $Params = @{
-        Authentication = "Bearer"
-        Token = $script:token
+    $headers = @{
+        Authorization = "Bearer $script:token"}
     }
 
-    if($Id -or $Name) {
+    $Params = @{
+        Method = "GET"
+        Headers = $headers
+    }
+
+    if($Id) {
         $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl + "/$Id")
-    } else {
+    } elseif {
         $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl)
     }
 
