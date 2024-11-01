@@ -30,7 +30,7 @@ function Connect-Umbrella {
     $headers = @{"Authorization"="Basic $($authorizationInfo)"}
     
     $response = Invoke-RestMethod -Uri $UmbrellaAPIPaths.Auth.TokenUrl -Method "POST" -Headers $headers
-    
+    Write-Host $response
     if($null -ne $response.access_token) {
         $temp_token = $response.access_token | ConvertTo-SecureString -AsPlainText -Force
         Set-Variable -Name token -Value $temp_token -Scope Script -Option ReadOnly -Force
