@@ -6,9 +6,9 @@ function Get-UmbrellaManagedCustomer {
         [string]$Id
     )
     
-    $Encoded = [System.Text.Encoding]::UTF8.GetBytes($auth)
+    $Encoded = [System.Text.Encoding]::UTF8.GetBytes($Id)
     $authorizationInfo = [System.Convert]::ToBase64String($Encoded)
-    $headers = @{"Authorization"="Basic $($authorizationInfo)"}
+    $headers = @{"Authorization"="Bearer $($authorizationInfo)"}
 
     $Params = @{
         Method = "GET"
