@@ -17,7 +17,7 @@ function Get-UmbrellaManagedCustomer {
 
     if($Id) {
         $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl + "/$Id")
-    } elseif {
+    } else {
         $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl)
     }
 
