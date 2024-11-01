@@ -9,7 +9,7 @@ function Get-UmbrellaManagedCustomer {
     
     $Params = @{
         Authentication = "Bearer"
-        Token = $script:Token
+        Token = $script:token
     }
 
     if($Id -or $Name) {
