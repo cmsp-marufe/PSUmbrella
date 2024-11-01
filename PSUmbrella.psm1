@@ -13,4 +13,4 @@ ForEach ($file in @($Public + $Private)) {
     }
 }
 
-Export-ModuleMember -Function * -Variable *
+Export-ModuleMember -Function * -Variable * -Cmdlet *

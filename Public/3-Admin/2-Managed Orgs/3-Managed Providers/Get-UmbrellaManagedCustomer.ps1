@@ -6,7 +6,8 @@ function Get-UmbrellaManagedCustomer {
         [string]$Id
     )
     
-    $headers = @{"Authorization"="Bearer $script:token"}
+    $temp_token = ConvertFrom-SecureStringToPlainText $script:token
+    $headers = @{"Authorization"="Bearer $temp_token"}
 
     $Params = @{
         Method = "GET"
