@@ -40,7 +40,7 @@ function Connect-Umbrella {
     
     if($null -ne $response.access_token) {
         $token = $response.access_token | ConvertTo-SecureString -AsPlainText -Force
-        Set-Variable -Name Token -Value $token -Scope Script -Option ReadOnly -Force
+        Set-Variable -Name token -Value $token -Scope Script -Option ReadOnly -Force
         Write-Host "Now connected to Umbrella API"
     }
 }
