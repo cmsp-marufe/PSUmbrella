@@ -12,5 +12,3 @@ ForEach ($file in @($Public + $Private)) {
         Write-Error -Message "Failed to import function $($file.fullname): $_"
     }
 }
-
-Export-ModuleMember -Function * -Variable * -Cmdlet *
