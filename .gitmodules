@@ -1,0 +1,3 @@
+[submodule "Private/ConvertFrom-SecureStringToPlainText"]
+	path = Private/ConvertFrom-SecureStringToPlainText
+	url = https://gist.github.com/10c67244cf380a66b6ca0e59139cd11d.git
