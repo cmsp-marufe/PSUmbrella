@@ -7,6 +7,8 @@ function Get-UmbrellaManagedCustomer {
         [string]$Name
     )
     
+    $uri = $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl
+    
     $temp_token = ConvertFrom-SecureStringToPlainText $script:token
     $headers = @{"Authorization" = "Bearer $temp_token" }
 
@@ -17,35 +19,37 @@ function Get-UmbrellaManagedCustomer {
 
     if ($Id -or $Name) {
         if ($Name) {
-            $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl)
-            $temp_customers = Invoke-RestMethod @Params
-            $search_results = $temp_customers | Where-Object { $_.customerName -match $Name }
-            $results_count = $search_results | Measure-Object
+            $Params.Add("Uri", $uri)
+            $response = Invoke-RestMethod @Params
+            $search_results = $response | Where-Object { $_.customerName -match $Name }
+            $results_count = $($search_results | Measure-Object).Count
             #Write-Host $results_count
-            if ($results_count.Count -eq 1) {
+            if ($results_count -eq 1) {
                 $search_results
             }
-            else {
+            elseif ($results_count -eq 0) {
+                Write-Host "Your search returned no results."
+                
+            } else {
                 Write-Host "Your search returned multiple results. See the results below:"
-                $customers = $search_results
-                $customers | Out-Default
-                Write-Host "Run this cmdlet again, but with the -Id parameter and the ID number of the customer instead of -Name, or use a more specific search string."
+                $search_results | Out-Default
+                Write-Host "Run this cmdlet again, but with the -Id parameter and the ID number of the entry you want instead of -Name, or use a more specific search string."
             }
         }
         if ($Id) {
-            $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl + "/$Id")
+            $Params.Add("Uri", $uri + "/$Id")
 
-            $customers = Invoke-RestMethod @Params
+            $response = Invoke-RestMethod @Params
 
-            $customers
+            $response
         }
     }
     else {
-        $Params.Add("Uri", $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl)
+        $Params.Add("Uri", $uri)
 
-        $customers = Invoke-RestMethod @Params
+        $response = Invoke-RestMethod @Params
 
-        $customers
+        $response
     }
 
     
