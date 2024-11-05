@@ -32,7 +32,7 @@ function Connect-UmbrellaOnline {
     switch ($responseStatus) {
         200 {
             Write-Host "Now connected to Umbrella API"
-            if($null -ne $OrgId) {
+            if($OrgId) {
                 Set-Variable -Name childToken -Value (ConvertTo-SecureString $response.access_token -AsPlainText -Force) -Scope Script -Option ReadOnly -Force
             } else {
                 Set-Variable -Name token -Value (ConvertTo-SecureString $response.access_token -AsPlainText -Force) -Scope Script -Option ReadOnly -Force
