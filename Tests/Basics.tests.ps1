@@ -7,13 +7,13 @@ $badCreds = Get-Credential
 cls
 Remove-Module PSUmbrella
 Import-Module -Name C:\Users\marufe\GitHub\PSUmbrella
-Connect-Umbrella $creds
+Connect-UmbrellaOnline $creds
 #test auth token error messages
-Connect-Umbrella $badCreds
+Connect-UmbrellaOnline $badCreds
 
 
 #Get-ManagedProviderCustomer
-Get-ManagedProviderCustomer -Id 5362852
+Get-UmbrellaCustomer -Id 5362852
 #troubleshoot SINGLE customer search results by name
 $response = Get-ManagedProviderCustomer
 $search_results = $response | Where-Object {$_.customerName -match "Irwin"}

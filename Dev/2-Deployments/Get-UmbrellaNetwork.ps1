@@ -17,10 +17,6 @@ function Get-UmbrellaNetwork {
     $uri = $UmbrellaAPIPaths.Deployments.NetworksUrl
     
     $Params = @{
-        Headers = @{
-            'X-Umbrella-OrgId' = $OrgId
-            'Content-Type' = 'application/x-www-form-urlencoded'
-        }
         Method  = "GET"
         Authentication = "Bearer"
         Token = $script:token
