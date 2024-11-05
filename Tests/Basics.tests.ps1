@@ -1,15 +1,39 @@
+#Get API keys
 $creds = Get-Credential
+#test faulty credentials
+$badCreds = Get-Credential
 
+#Reload the module 
+cls
 Remove-Module PSUmbrella
-Import-Module -Name C:\Users\marufe\GitHub\PSUmbrella -Verbose
+Import-Module -Name C:\Users\marufe\GitHub\PSUmbrella
 Connect-Umbrella $creds
-Get-UmbrellaManagedCustomer -Name "LLC"
+#test auth token error messages
+Connect-Umbrella $badCreds
+
+
+#Get-ManagedProviderCustomer
+Get-ManagedProviderCustomer -Id 5362852
 #troubleshoot SINGLE customer search results by name
-$temp_customers = Get-UmbrellaManagedCustomer
-$search_results = $temp_customers | Where-Object {$_.customerName -match "Irwin"}
+$response = Get-ManagedProviderCustomer
+$search_results = $response | Where-Object {$_.customerName -match "Irwin"}
 $search_results
 #troubleshoot MULTIPLE customer search results by name
-$temp_customers = Get-UmbrellaManagedCustomer
+$temp_customers = Get-ManagedProviderCustomer
+$search_results = $temp_customers | Where-Object {$_.customerName -match "LLC"}
+$search_results | Measure-Object
+$results_count = $search_results | Measure-Object
+$results_count
+
+#Get-Network
+#Connect-Umbrella $creds
+Get-Network 
+#troubleshoot SINGLE customer search results by name
+$response = Get-Network
+$search_results = $response | Where-Object {$_.name -match "MCAA"}
+$search_results
+#troubleshoot MULTIPLE customer search results by name
+$response = Get-Network
 $search_results = $temp_customers | Where-Object {$_.customerName -match "LLC"}
 $search_results | Measure-Object
 $results_count = $search_results | Measure-Object

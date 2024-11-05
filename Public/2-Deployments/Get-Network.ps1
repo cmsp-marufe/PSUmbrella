@@ -1,27 +1,36 @@
 #Makes both the "GET Network" and "[GET] List Networks" calls available under the "Networks" API endpoint in the "Deployments" scope
 function Get-Network {
     
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="List")]
     param (
+        [Parameter(ParameterSetName='ID')]
         [int]$Id,
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='ID', HelpMessage="Enter the OrgID of the client's Umbrella dashboard")]
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='Name', HelpMessage="Enter the OrgID of the client's Umbrella dashboard")]
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='List', HelpMessage="Enter the OrgID of the client's Umbrella dashboard")]
+        [int]$OrgId,
+        [Parameter(ParameterSetName='Name')]
         [string]$Name
     )
     
     $uri = $UmbrellaAPIPaths.Deployments.NetworksUrl
     
-    $temp_token = ConvertFrom-SecureStringToPlainText $script:token
-    $headers = @{"Authorization" = "Bearer $temp_token" }
-
     $Params = @{
+        Headers = @{
+            'X-Umbrella-OrgId' = $OrgId
+            'Content-Type' = 'application/x-www-form-urlencoded'
+        }
         Method  = "GET"
-        Headers = $headers
+        Authentication = "Bearer"
+        Token = $script:token
+        
     }
 
     if ($Id -or $Name) {
         if ($Name) {
             $Params.Add("Uri", $uri)
             $response = Invoke-RestMethod @Params
-            $search_results = $response | Where-Object { $_.customerName -match $Name }
+            $search_results = $response | Where-Object { $_.name -match $Name }
             $results_count = $($search_results | Measure-Object).Count
             #Write-Host $results_count
             if ($results_count -eq 1) {

@@ -1,5 +1,5 @@
 #Makes both of the "GET Customer" calls available under the "Managed Providers" API endpoint in the admin scope
-function Get-ManagedCustomer {
+function Get-ManagedProviderCustomer {
     
     [CmdletBinding()]
     param (
@@ -9,12 +9,10 @@ function Get-ManagedCustomer {
     
     $uri = $UmbrellaAPIPaths.Admin.ManagedProviderCustomersUrl
     
-    $temp_token = ConvertFrom-SecureStringToPlainText $script:token
-    $headers = @{"Authorization" = "Bearer $temp_token" }
-
     $Params = @{
         Method  = "GET"
-        Headers = $headers
+        Authentication = "Bearer"
+        Token = $script:token
     }
 
     if ($Id -or $Name) {
@@ -23,7 +21,7 @@ function Get-ManagedCustomer {
             $response = Invoke-RestMethod @Params
             $search_results = $response | Where-Object { $_.customerName -match $Name }
             $results_count = $($search_results | Measure-Object).Count
-            #Write-Host $results_count
+            
             if ($results_count -eq 1) {
                 $search_results
             }
