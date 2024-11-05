@@ -1,5 +1,5 @@
 #Makes both of the "GET Customer" calls available under the "Managed Providers" API endpoint in the admin scope
-function Get-ManagedProviderCustomer {
+function Get-UmbrellaCustomer {
     
     [CmdletBinding()]
     param (
