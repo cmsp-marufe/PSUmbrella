@@ -3,12 +3,14 @@
 function Connect-UmbrellaOnline {
     [CmdletBinding()]
     param (
+        [ValidateNotNullOrEmpty()]
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [int]$OrgId,
         [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]
         $Credential = [System.Management.Automation.PSCredential]::Empty
     )
-    
     
     if($Credential -ne [System.Management.Automation.PSCredential]::Empty) {
         $creds = $Credential
@@ -16,7 +18,13 @@ function Connect-UmbrellaOnline {
         $creds = (Get-Credential)
     }
 
-    $response = Invoke-RestMethod -Uri $UmbrellaAPIPaths.Auth.TokenUrl -Authentication Basic -Method "POST" -Credential $creds -StatusCodeVariable responseStatus -SkipHttpErrorCheck
+    if($null -ne $OrgId) {
+        $headers = @{
+            'X-Umbrella-OrgId' = $OrgId
+        }
+    }
+
+    $response = Invoke-RestMethod -Uri $UmbrellaAPIPaths.Auth.TokenUrl -Authentication Basic -Method "POST" -Credential $creds -StatusCodeVariable responseStatus -SkipHttpErrorCheck -Headers $headers
     
     switch ($responseStatus) {
         200 {
