@@ -2,15 +2,15 @@
 #Work in progress, not yet functional
 function Get-UmbrellaNetwork {
     
-    [CmdletBinding(DefaultParameterSetName="List")]
+    [CmdletBinding(DefaultParameterSetName = "List")]
     param (
-        [Parameter(ParameterSetName='ID')]
+        [Parameter(ParameterSetName = 'ID')]
         [int]$Id,
-        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='ID', HelpMessage="Enter the OrgID of the client's Umbrella dashboard")]
-        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='Name', HelpMessage="Enter the OrgID of the client's Umbrella dashboard")]
-        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='List', HelpMessage="Enter the OrgID of the client's Umbrella dashboard")]
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName = 'ID', HelpMessage = "Enter the OrgID of the client's Umbrella dashboard")]
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName = 'Name', HelpMessage = "Enter the OrgID of the client's Umbrella dashboard")]
+        [Parameter(Mandatory, ValueFromPipeline, ParameterSetName = 'List', HelpMessage = "Enter the OrgID of the client's Umbrella dashboard")]
         [int]$OrgId,
-        [Parameter(ParameterSetName='Name')]
+        [Parameter(ParameterSetName = 'Name')]
         [string]$Name
     )
     
@@ -19,8 +19,7 @@ function Get-UmbrellaNetwork {
     $Params = @{
         Method  = "GET"
         Authentication = "Bearer"
-        Token = $script:token
-        
+        Token = $script:childToken    
     }
 
     if ($Id -or $Name) {
@@ -36,7 +35,8 @@ function Get-UmbrellaNetwork {
             elseif ($results_count -eq 0) {
                 Write-Host "Your search returned no results."
                 
-            } else {
+            }
+            else {
                 Write-Host "Your search returned multiple results. See the results below:"
                 $search_results | Out-Default
                 Write-Host "Run this cmdlet again, but with the -Id parameter and the ID number of the entry you want instead of -Name, or use a more specific search string."
