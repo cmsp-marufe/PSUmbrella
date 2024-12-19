@@ -4,7 +4,7 @@ $creds = Get-Credential
 $badCreds = Get-Credential
 
 #Reload the module 
-cls
+Clear-Host
 Remove-Module PSUmbrella
 Import-Module -Name C:\Users\marufe\GitHub\PSUmbrella
 Connect-UmbrellaOnline $creds
