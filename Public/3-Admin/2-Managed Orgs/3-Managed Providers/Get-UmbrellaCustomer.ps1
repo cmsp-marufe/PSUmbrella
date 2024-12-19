@@ -35,7 +35,7 @@ function Get-UmbrellaCustomer {
             }
         }
         if ($OrgId) {
-            $Params.Add("Uri", $uri + "/$Id")
+            $Params.Add("Uri", $uri + "/$OrgId")
 
             $response = Invoke-RestMethod @Params
 
