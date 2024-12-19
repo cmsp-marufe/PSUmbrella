@@ -13,7 +13,7 @@ Connect-UmbrellaOnline $badCreds
 
 
 #Get-ManagedProviderCustomer
-Get-UmbrellaCustomer -Id 5362852
+Get-UmbrellaCustomer -OrgId 5362852
 #troubleshoot SINGLE customer search results by name
 $response = Get-ManagedProviderCustomer
 $search_results = $response | Where-Object {$_.customerName -match "Irwin"}
