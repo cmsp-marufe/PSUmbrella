@@ -3,7 +3,7 @@ function Get-UmbrellaCustomer {
     
     [CmdletBinding()]
     param (
-        [int]$Id,
+        [int]$OrgId,
         [string]$Name
     )
     
@@ -15,7 +15,7 @@ function Get-UmbrellaCustomer {
         Token = $script:token
     }
 
-    if ($Id -or $Name) {
+    if ($OrgId -or $Name) {
         if ($Name) {
             $Params.Add("Uri", $uri)
             $response = Invoke-RestMethod @Params
@@ -34,7 +34,7 @@ function Get-UmbrellaCustomer {
                 Write-Host "Run this cmdlet again, but with the -Id parameter and the ID number of the entry you want instead of -Name, or use a more specific search string."
             }
         }
-        if ($Id) {
+        if ($OrgId) {
             $Params.Add("Uri", $uri + "/$Id")
 
             $response = Invoke-RestMethod @Params
